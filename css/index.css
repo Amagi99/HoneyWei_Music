@@ -84,8 +84,23 @@ dd {
   overflow-x: hidden;
   height: 100%;
 }
+/* 自定义滚动条样式 */
 .song_list::-webkit-scrollbar {
-  display: none;
+  width: 6px;
+}
+
+.song_list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.song_list::-webkit-scrollbar-thumb {
+  background: rgba(30, 172, 218, 0.5);
+  border-radius: 3px;
+}
+
+.song_list::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 172, 218, 0.8);
 }
 
 .song_list li {
@@ -161,10 +176,35 @@ dd {
 
 .player_con {
   width: 400px;
-  height: 435px;
+  height: 380px;
   position: absolute;
   left: 200px;
   top: 0px;
+  text-align: center;
+}
+
+/* 歌曲信息显示 - 唱片下方 */
+.music_info {
+  position: absolute;
+  left: 200px;
+  top: 380px;
+  width: 400px;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.music_info h3 {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.music_info p {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 12px;
 }
 
 .player_con2 {
@@ -207,6 +247,7 @@ dd {
   left: 600px;
   top: 0px;
   padding: 25px 10px;
+  overflow: auto;
 }
 .comment_wrapper .title {
   position: absolute;
@@ -218,7 +259,8 @@ dd {
   overflow: auto;
   height: 410px;
 }
-.comment_wrapper .comment_list::-webkit-scrollbar {
+.comment_wrapper .comment_list::-webkit-scrollbar,
+.lyric_wrapper .lyric_list::-webkit-scrollbar {
   display: none;
 }
 .comment_wrapper dl {

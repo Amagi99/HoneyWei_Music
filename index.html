@@ -41,11 +41,11 @@
           <!-- 黑胶碟片 -->
           <img src="images/disc.png" class="disc autoRotate" />
           <img :src="musicCover==''?'./images/cover.png':musicCover" class="cover autoRotate" />
-          <!-- 歌曲信息显示 -->
-          <div class="music_info">
-            <h3 class="music_name">{{currentMusic.name || '未播放歌曲'}}</h3>
-            <p class="music_singer">{{currentMusic.singer || '未知歌手'}}</p>
-          </div>
+        </div>
+        <!-- 歌曲信息显示 - 移到唱片下方 -->
+        <div class="music_info">
+          <h3 class="music_name">{{currentMusic.name || '未播放歌曲'}}</h3>
+          <p class="music_singer">{{currentMusic.singer || '未知歌手'}}</p>
         </div>
         <!-- 歌词容器 -->
         <div class="lyric_wrapper" ref='lyric_wrapper'>
