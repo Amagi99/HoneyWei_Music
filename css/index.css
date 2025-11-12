@@ -198,7 +198,8 @@ dd {
   border-radius: 75px;
   z-index: 8;
 }
-.comment_wrapper {
+.comment_wrapper,
+.lyric_wrapper {
   width: 180px;
   height: 435px;
   list-style: none;
@@ -212,7 +213,8 @@ dd {
   top: 0;
   margin-top: 10px;
 }
-.comment_wrapper .comment_list {
+.comment_wrapper .comment_list,
+.lyric_wrapper .lyric_list {
   overflow: auto;
   height: 410px;
 }
@@ -252,6 +254,26 @@ dd {
   color: #666;
   margin-top: 5px;
   line-height: 18px;
+}
+
+/* 歌词样式 */
+.lyric_wrapper .lyric_list p {
+  font-size: 12px;
+  color: #666;
+  line-height: 30px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+.lyric_wrapper .lyric_list p.active {
+  color: #1eacda;
+  font-size: 14px;
+  font-weight: bold;
+  transform: scale(1.1);
 }
 .audio_con {
   height: 50px;
