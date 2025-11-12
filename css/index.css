@@ -66,12 +66,13 @@ dd {
   width: 200px;
   height: 435px;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 10px 0;
   list-style: none;
   position: absolute;
   left: 0px;
   top: 0px;
   z-index: 1;
+  overflow: hidden;
 }
 
 .song_stretch {
@@ -86,6 +87,8 @@ dd {
   /* 确保滚动条始终可见 */
   scrollbar-width: thin;
   scrollbar-color: rgba(30, 172, 218, 0.5) rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  padding-right: 5px; /* 添加右侧内边距，确保滚动条不影响内容 */
 }
 /* 自定义滚动条样式 */
 .song_list::-webkit-scrollbar {
@@ -113,8 +116,9 @@ dd {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  width: 580px;
+  width: 100%;
   padding-left: 10px;
+  box-sizing: border-box;
 }
 
 .song_list li:nth-child(odd) {
@@ -244,13 +248,13 @@ dd {
 .comment_wrapper,
 .lyric_wrapper {
   width: 180px;
-  height: 435px;
+  height: 400px; /* 减小高度，避免溢出到进度条 */
   list-style: none;
   position: absolute;
   left: 600px;
   top: 0px;
-  padding: 25px 10px;
-  overflow: auto;
+  padding: 25px 10px 5px 10px; /* 调整内边距，底部留空 */
+  overflow: hidden;
 }
 .comment_wrapper .title {
   position: absolute;
@@ -263,8 +267,20 @@ dd {
   height: 410px;
 }
 .comment_wrapper .comment_list::-webkit-scrollbar,
+.lyric_wrapper::-webkit-scrollbar,
 .lyric_wrapper .lyric_list::-webkit-scrollbar {
   display: none;
+}
+
+/* 额外隐藏歌词区域的滚动条 */
+.lyric_wrapper {
+  overflow: hidden;
+}
+
+.lyric_wrapper .lyric_list {
+  overflow: hidden;
+  height: calc(100% - 30px); /* 减去标题的高度，确保不会溢出 */
+  padding-bottom: 10px; /* 添加底部内边距 */
 }
 .comment_wrapper dl {
   padding-top: 10px;
