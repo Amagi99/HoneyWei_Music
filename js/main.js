@@ -32,7 +32,7 @@ var app = new Vue({
           return
       }
       var that = this;
-      axios.get("https://api.kxzjoker.cn/api/163_search?name=" + encodeURIComponent(this.query) + "&limit=10").then(
+      axios.get("https://api.kxzjoker.cn/api/163_search?name=" + encodeURIComponent(this.query) + "&limit=50").then(
         function(response) {
           // 检查响应格式并保存内容
           if (response.data && response.data.data) {
