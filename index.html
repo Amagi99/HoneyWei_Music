@@ -28,7 +28,6 @@
               <b>{{item.name || item.name}}</b>
               <span>
                 <span class="singer">{{item.singer || (item.artists && item.artists[0] ? item.artists[0].name : '未知歌手')}}</span>
-                <i @click="playMv(item.mvid || item.mvid)" v-if="item.mvid!=0 || item.mvid"></i>
               </span>
             </li>
 
@@ -61,10 +60,6 @@
       <div class="audio_con">
         <audio ref='audio' @play="play" @pause="pause" :src="musicUrl" controls autoplay loop class="myaudio"></audio>
       </div>
-      <div class="video_con" v-show="isShow">
-          <video ref='video' :src="mvUrl" controls="controls"></video>
-          <div class="mask" @click="hide"></div>
-        </div>
     </div>
   </div>
   <!-- 开发环境版本，包含了有帮助的命令行警告 -->

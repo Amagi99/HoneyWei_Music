@@ -11,10 +11,6 @@ var app = new Vue({
     musicCover: "",
     // 动画播放状态
     isPlaying: false,
-    // 遮罩层的显示状态
-    isShow: false,
-    // mv地址
-    mvUrl: "",
     // 当前播放歌曲信息
     currentMusic: {
       name: '',
@@ -25,7 +21,9 @@ var app = new Vue({
     // 当前歌词索引
     currentLyricIndex: -1,
     // 原始歌词
-    rawLyric: ''
+    rawLyric: '',
+    // 当前播放的歌曲索引
+    currentIndex: -1
   },
   methods: {
     // 歌曲搜索
@@ -59,6 +57,7 @@ var app = new Vue({
       for(var i = 0; i < that.musicList.length; i++) {
         if(that.musicList[i].id == musicId) {
           currentSong = that.musicList[i];
+          that.currentIndex = i;
           break;
         }
       }
@@ -171,22 +170,17 @@ var app = new Vue({
         }
       }
     },
-    // 播放mv
-    playMV: function(mvid) {
-      var that = this;
-      axios.get("https://api.kxzjoker.cn/api/163_mv?id=" + mvid).then(
-        function(response) {
-          // console.log(response);
-          console.log(response.data.data.url);
-          that.isShow = true;
-          that.mvUrl = response.data.data.url;
-        },
-        function(err) {}
-      );
-    },
-    // 隐藏
-    hide: function() {
-      this.isShow = false;
+    // 播放下一首歌曲
+    playNextSong: function() {
+      if (this.musicList.length > 0) {
+        // 计算下一首歌曲的索引，如果是最后一首，则播放第一首
+        let nextIndex = this.currentIndex + 1;
+        if (nextIndex >= this.musicList.length) {
+          nextIndex = 0;
+        }
+        // 播放下一首歌曲
+        this.playMusic(this.musicList[nextIndex].id);
+      }
     }
   },
   
@@ -196,6 +190,7 @@ var app = new Vue({
     const audio = this.$refs.audio;
     if (audio) {
       audio.addEventListener('timeupdate', this.updateLyric);
+      audio.addEventListener('ended', this.playNextSong);
     }
   }
 });

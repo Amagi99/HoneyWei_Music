@@ -83,6 +83,9 @@ dd {
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+  /* 确保滚动条始终可见 */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(30, 172, 218, 0.5) rgba(255, 255, 255, 0.1);
 }
 /* 自定义滚动条样式 */
 .song_list::-webkit-scrollbar {
@@ -187,7 +190,7 @@ dd {
 .music_info {
   position: absolute;
   left: 200px;
-  top: 380px;
+  top: 350px;
   width: 400px;
   text-align: center;
   padding: 10px 0;
