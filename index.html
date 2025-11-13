@@ -14,7 +14,7 @@
   <div class="wrap">
     <div class="play_wrap" id="player">
       <div class="search_bar">
-        <img src="images/player_title.png" alt="" />
+        <img src="images/player_title.webp" alt="" />
         <!-- 搜索歌曲 -->
         <input type="text" autocomplete="off" v-model='query' @keyup.enter="searchMusic();" />
       </div>
@@ -32,14 +32,14 @@
             </li>
 
           </ul>
-          <img src="images/line.png" class="switch_btn" alt="">
+          <img src="images/line.webp" class="switch_btn" alt="">
         </div>
         <!-- 歌曲信息容器 -->
         <div class="player_con" :class="{playing:isPlaying}">
-          <img src="images/player_bar.png" class="play_bar" />
+          <img src="images/player_bar.webp" class="play_bar" />
           <!-- 黑胶碟片 -->
-          <img src="images/disc.png" class="disc autoRotate" />
-          <img :src="musicCover==''?'./images/cover.png':musicCover" class="cover autoRotate" />
+          <img src="images/disc.webp" class="disc autoRotate" />
+          <img :src="musicCover==''?'./images/cover.webp':musicCover" class="cover autoRotate" />
         </div>
         <!-- 歌曲信息显示 - 移到唱片下方 -->
         <div class="music_info">
@@ -54,7 +54,7 @@
               {{line.text}}
             </p>
           </div>
-          <img src="images/line.png" class="right_line">
+          <img src="images/line.webp" class="right_line">
         </div>
       </div>
       <div class="audio_con">
