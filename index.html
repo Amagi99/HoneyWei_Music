@@ -58,7 +58,44 @@
         </div>
       </div>
       <div class="audio_con">
-        <audio ref='audio' @play="play" @pause="pause" @error="handleAudioError" :src="musicUrl" controls autoplay class="myaudio"></audio>\
+        <audio ref='audio' @play="play" @pause="pause" @error="handleAudioError" :src="musicUrl" autoplay class="myaudio"></audio>
+        <!-- 自定义进度条和控制按钮 -->
+        <div class="progress_wrapper">
+          <div class="time_info">
+            <span class="current_time">{{currentTimeText}}</span>
+            <span class="total_time">{{durationText}}</span>
+          </div>
+          <div class="progress_bar" @click="updateProgress($event)">
+            <div class="progress_bg"></div>
+            <div class="progress_current" :style="{width: progressWidth}"></div>
+            <div class="progress_dot" :style="{left: progressWidth}"></div>
+          </div>
+          <!-- 播放控制按钮 -->
+            <div class="play_controls">
+              <button class="control_btn prev_btn" @click="playPrevSong" title="上一首">
+                <span class="btn_icon prev_icon"></span>
+              </button>
+              <button class="control_btn play_btn" @click="togglePlay" title="播放/暂停">
+                <span class="btn_icon play_icon" v-if="!isPlaying"></span>
+                <span class="btn_icon pause_icon" v-else></span>
+              </button>
+              <button class="control_btn next_btn" @click="playNextSong" title="下一首">
+                <span class="btn_icon next_icon"></span>
+              </button>
+              <button class="control_btn download_btn" @click="downloadMusic" title="下载歌曲">
+                <span class="btn_icon download_icon"></span>
+              </button>
+            <!-- 音量控制 -->
+            <div class="volume_control">
+              <div class="volume_icon" @click="toggleMute" :class="{muted: isMuted}"></div>
+              <div class="volume_bar" @click="updateVolume($event)">
+                <div class="volume_bg"></div>
+                <div class="volume_current" :style="{width: volumeWidth}"></div>
+                <div class="volume_dot" :style="{left: volumeWidth}"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

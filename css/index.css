@@ -336,19 +336,316 @@ dd {
   transform: scale(1.1);
 }
 .audio_con {
-  height: 50px;
+  height: 80px;
   background-color: rgba(255, 255, 255, 0.3);
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 20px;
+  box-sizing: border-box;
 }
 .myaudio {
-  width: 800px;
+  display: none; /* 隐藏默认的音频控件 */
+}
+
+/* 自定义进度条样式 */
+.progress_wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.time_info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #fff;
+  margin-bottom: 5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.progress_bar {
+  position: relative;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.progress_bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.progress_current {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: #1eacda;
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.progress_dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 2px solid #1eacda;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.progress_dot:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* 播放控制按钮样式 */
+.play_controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  gap: 20px;
+}
+
+.control_btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control_btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.control_btn:active {
+  transform: scale(0.95);
+}
+
+/* 播放按钮特殊样式 */
+.play_btn {
+  width: 40px;
   height: 40px;
-  margin-top: 5px;
-  outline: none;
-  background-color: transparent;
+  background-color: rgba(30, 172, 218, 0.8);
+}
+
+.play_btn:hover {
+  background-color: rgba(30, 172, 218, 1);
+}
+
+/* 按钮图标样式 */
+.btn_icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* 使用CSS绘制图标，避免依赖图片文件 */
+.prev_icon {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 12px solid white;
+  margin-right: -2px;
+}
+
+.next_icon {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 12px solid white;
+  margin-left: -2px;
+}
+
+.play_icon {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 12px solid white;
+  margin-left: 2px;
+}
+
+/* 下载按钮图标 */
+.download_icon {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+.download_icon::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 7px 12px 7px;
+  border-color: transparent transparent white transparent;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.download_icon::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 8px;
+  border: 2px solid white;
+  border-top: none;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+
+.pause_icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+.pause_icon::before,
+.pause_icon::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 16px;
+  background-color: white;
+  left: 0;
+  right: auto;
+}
+
+.pause_icon::after {
+  left: auto;
+  right: 0;
+}
+
+/* 音量控制样式 */
+.volume_control {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  margin-left: 30px;
+}
+
+.volume_icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* 用CSS绘制音量图标 */
+.volume_icon::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 8px solid white;
+}
+
+.volume_icon::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 6px;
+  width: 0;
+  height: 0;
+  border: 3px solid white;
+  border-radius: 3px;
+  transform: rotate(45deg);
+}
+
+/* 静音状态 */
+.volume_icon.muted::before,
+.volume_icon.muted::after {
+  display: none;
+}
+
+.volume_icon.muted {
+  background: linear-gradient(45deg, transparent 45%, white 45%, white 55%, transparent 55%),
+              linear-gradient(-45deg, transparent 45%, white 45%, white 55%, transparent 55%);
+  background-size: 100% 100%;
+}
+
+.volume_bar {
+  position: relative;
+  width: 100px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.volume_bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.volume_current {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.volume_dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.volume_dot:hover {
+  transform: translate(-50%, -50%) scale(1.2);
 }
 /* 旋转的动画 */
 @keyframes Rotate {

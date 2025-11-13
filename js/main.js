@@ -23,7 +23,15 @@ var app = new Vue({
     // 原始歌词
     rawLyric: '',
     // 当前播放的歌曲索引
-    currentIndex: -1
+    currentIndex: -1,
+    // 进度条相关
+    currentTimeText: '00:00',
+    durationText: '00:00',
+    progressWidth: '0%',
+    // 音量控制相关
+    volumeWidth: '80%',
+    isMuted: false,
+    volumeTimer: null
   },
   methods: {
     // 歌曲搜索
@@ -165,6 +173,117 @@ var app = new Vue({
         }
       }
     },
+    
+    // 更新进度条
+    updateProgressBar: function() {
+      if (!this.$refs.audio) return;
+      
+      const audio = this.$refs.audio;
+      const currentTime = audio.currentTime;
+      const duration = audio.duration || 0;
+      
+      // 更新时间文本
+      this.currentTimeText = this.formatTime(currentTime);
+      this.durationText = this.formatTime(duration);
+      
+      // 更新进度条宽度
+      if (duration > 0) {
+        this.progressWidth = (currentTime / duration * 100) + '%';
+      }
+    },
+    
+    // 格式化时间
+    formatTime: function(seconds) {
+      if (isNaN(seconds) || seconds < 0) return '00:00';
+      
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.floor(seconds % 60);
+      
+      return (
+        (minutes < 10 ? '0' + minutes : minutes) + 
+        ':' + 
+        (remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds)
+      );
+    },
+    
+    // 更新播放进度
+    updateProgress: function(event) {
+      if (!this.$refs.audio) return;
+      
+      const audio = this.$refs.audio;
+      const progressBar = event.currentTarget;
+      const rect = progressBar.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const percentage = clickX / rect.width;
+      
+      const newTime = percentage * audio.duration;
+      audio.currentTime = newTime;
+      this.updateProgressBar();
+    },
+    
+    // 切换静音状态
+    toggleMute: function() {
+      if (!this.$refs.audio) return;
+      
+      const audio = this.$refs.audio;
+      this.isMuted = !this.isMuted;
+      audio.muted = this.isMuted;
+      
+      // 更新音量条显示
+      if (this.isMuted) {
+        this.volumeWidth = '0%';
+      } else {
+        this.volumeWidth = (audio.volume * 100) + '%';
+      }
+    },
+    
+    // 更新音量
+    updateVolume: function(event) {
+      if (!this.$refs.audio) return;
+      
+      const audio = this.$refs.audio;
+      const volumeBar = event.currentTarget;
+      const rect = volumeBar.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      let percentage = clickX / rect.width;
+      
+      // 限制范围在0-1之间
+      percentage = Math.max(0, Math.min(1, percentage));
+      
+      audio.volume = percentage;
+      this.volumeWidth = (percentage * 100) + '%';
+      
+      // 如果之前是静音状态，取消静音
+      if (this.isMuted) {
+        this.isMuted = false;
+        audio.muted = false;
+      }
+    },
+    
+    // 播放上一首歌曲
+    playPrevSong: function() {
+      if (this.musicList.length > 0) {
+        // 计算上一首歌曲的索引，如果是第一首，则播放最后一首
+        let prevIndex = this.currentIndex - 1;
+        if (prevIndex < 0) {
+          prevIndex = this.musicList.length - 1;
+        }
+        // 播放上一首歌曲
+        this.playMusic(this.musicList[prevIndex].id);
+      }
+    },
+    
+    // 切换播放和暂停状态
+    togglePlay: function() {
+      if (!this.$refs.audio) return;
+      
+      const audio = this.$refs.audio;
+      if (this.isPlaying) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
+    },
     // 滚动到当前歌词
     scrollToCurrentLyric: function() {
       if (this.currentLyricIndex >= 0 && this.$refs.lyric_list) {
@@ -193,17 +312,77 @@ var app = new Vue({
       }
     },
     // 播放下一首歌曲
-    playNextSong: function() {
-      if (this.musicList.length > 0) {
-        // 计算下一首歌曲的索引，如果是最后一首，则播放第一首
-        let nextIndex = this.currentIndex + 1;
-        if (nextIndex >= this.musicList.length) {
-          nextIndex = 0;
-        }
-        // 播放下一首歌曲
-        this.playMusic(this.musicList[nextIndex].id);
+  playNextSong: function() {
+    if (this.musicList.length > 0) {
+      // 计算下一首歌曲的索引，如果是最后一首，则播放第一首
+      let nextIndex = this.currentIndex + 1;
+      if (nextIndex >= this.musicList.length) {
+        nextIndex = 0;
       }
-    },
+      // 播放下一首歌曲
+      this.playMusic(this.musicList[nextIndex].id);
+    }
+  },
+  
+  // 实现下载歌曲的功能
+   downloadMusic: function() {
+     // 获取当前播放的音频源
+     const audioSource = this.$refs.audio.src;
+     if (!audioSource) {
+       alert('没有可下载的音频');
+       return;
+     }
+     
+     // 从当前歌曲列表获取歌曲名称
+     const currentSongName = this.musicList[this.currentIndex] ? 
+       this.musicList[this.currentIndex].name : 'audio';
+     
+     try {
+       // 尝试使用Fetch API和Blob进行下载，这对大多数资源类型都有效
+       fetch(audioSource)
+         .then(response => {
+           if (!response.ok) {
+             throw new Error('网络响应不正常');
+           }
+           return response.blob();
+         })
+         .then(blob => {
+           // 创建Blob URL
+           const blobUrl = URL.createObjectURL(blob);
+           
+           // 创建下载链接
+           const downloadLink = document.createElement('a');
+           downloadLink.href = blobUrl;
+           downloadLink.download = currentSongName + '.mp3';
+           
+           // 触发下载
+           document.body.appendChild(downloadLink);
+           downloadLink.click();
+           
+           // 清理
+           document.body.removeChild(downloadLink);
+           // 释放Blob URL
+           setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+           
+           console.log('下载歌曲:', currentSongName);
+         })
+         .catch(error => {
+           console.error('下载失败:', error);
+           // 降级方案：如果Fetch失败，尝试原始方式
+           const downloadLink = document.createElement('a');
+           downloadLink.href = audioSource;
+           downloadLink.download = currentSongName + '.mp3';
+           // 添加target="_blank"以防止页面跳转
+           downloadLink.target = '_blank';
+           document.body.appendChild(downloadLink);
+           downloadLink.click();
+           document.body.removeChild(downloadLink);
+         });
+     } catch (error) {
+       console.error('下载过程中出现错误:', error);
+       alert('下载失败，请稍后重试');
+     }
+   },
     // 处理音频错误，播放失败时自动切换到下一首
     handleAudioError: function() {
       console.error('音频播放失败，自动切换到下一首');
@@ -238,17 +417,32 @@ var app = new Vue({
     const audio = this.$refs.audio;
     var that = this;
     if (audio) {
-      audio.addEventListener('timeupdate', this.updateLyric);
+      audio.addEventListener('timeupdate', function() {
+        that.updateLyric();
+        that.updateProgressBar();
+      });
       audio.addEventListener('ended', this.playNextSong);
       
       // 监听音频可以播放事件，清除超时定时器
       audio.addEventListener('canplay', function() {
         that.clearLoadTimeout();
+        that.updateProgressBar();
       });
       
       // 监听音频加载数据事件，清除超时定时器
       audio.addEventListener('loadeddata', function() {
         that.clearLoadTimeout();
+        that.updateProgressBar();
+        // 初始化音量
+        audio.volume = 0.8;
+      });
+      
+      // 监听音频元数据加载完成事件
+      audio.addEventListener('loadedmetadata', function() {
+        that.updateProgressBar();
+        if (app) {
+          app.currentLyricIndex = -1;
+        }
       });
     }
   }
