@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="audio_con">
-        <audio ref='audio' @play="play" @pause="pause" :src="musicUrl" controls autoplay loop class="myaudio"></audio>
+        <audio ref='audio' @play="play" @pause="pause" @error="handleAudioError" :src="musicUrl" controls autoplay class="myaudio"></audio>\
       </div>
     </div>
   </div>

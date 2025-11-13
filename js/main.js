@@ -165,7 +165,22 @@ var app = new Vue({
         const currentLine = lyricList.children[this.currentLyricIndex];
         if (currentLine) {
           // 计算滚动位置，使当前歌词居中
-          const scrollTop = currentLine.offsetTop - lyricList.clientHeight / 2 + currentLine.clientHeight / 2;
+          let scrollTop = currentLine.offsetTop - lyricList.clientHeight / 2 + currentLine.clientHeight / 2;
+          
+          // 确保滚动位置不会让歌词超出可视区域的底部
+          // 计算最大滚动值
+          const maxScrollTop = lyricList.scrollHeight - lyricList.clientHeight;
+          
+          // 如果计算出的滚动位置大于最大滚动值，则使用最大滚动值
+          if (scrollTop > maxScrollTop) {
+            scrollTop = maxScrollTop;
+          }
+          
+          // 确保滚动位置不为负数
+          if (scrollTop < 0) {
+            scrollTop = 0;
+          }
+          
           lyricList.scrollTop = scrollTop;
         }
       }
@@ -181,6 +196,11 @@ var app = new Vue({
         // 播放下一首歌曲
         this.playMusic(this.musicList[nextIndex].id);
       }
+    },
+    // 处理音频错误，播放失败时自动切换到下一首
+    handleAudioError: function() {
+      console.error('音频播放失败，自动切换到下一首');
+      this.playNextSong();
     }
   },
   
