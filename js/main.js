@@ -70,22 +70,29 @@ var app = new Vue({
         };
       }
       
+      // 设置加载超时检测
+      that.setLoadTimeout();
+      
       // 使用163_music API获取完整的音乐信息
       const musicUrl = 'https://y.music.163.com/m/song?id=' + musicId;
       axios.get("https://api.kxzjoker.cn/api/163_music?url=" + encodeURIComponent(musicUrl) + "&level=standard&type=json").then(
         function(response) {
           console.log('音乐信息响应:', response.data);
-          if (response.data && response.data.status === 200) {
+          if (response.data && response.data.status === 200 && response.data.url) {
             // 设置歌曲URL
             that.musicUrl = response.data.url;
             // 设置封面
             that.musicCover = response.data.pic;
             // 解析歌词并设置
             that.parseLyric(response.data.lyric || '');
+          } else {
+            console.error('获取到的音乐资源无效，自动切换到下一首');
+            that.playNextSong();
           }
         },
         function(err) {
           console.error('获取音乐信息失败:', err);
+          that.playNextSong();
         }
       );
     },
@@ -200,17 +207,49 @@ var app = new Vue({
     // 处理音频错误，播放失败时自动切换到下一首
     handleAudioError: function() {
       console.error('音频播放失败，自动切换到下一首');
+      // 清除超时定时器
+      this.clearLoadTimeout();
       this.playNextSong();
+    },
+    
+    // 设置加载超时检测
+    setLoadTimeout: function() {
+      // 清除可能存在的旧定时器
+      this.clearLoadTimeout();
+      // 设置3秒超时定时器
+      var that = this;
+      this.loadTimeout = setTimeout(function() {
+        console.error('音频加载超时（3秒），自动切换到下一首');
+        that.playNextSong();
+      }, 3000);
+    },
+    
+    // 清除加载超时定时器
+    clearLoadTimeout: function() {
+      if (this.loadTimeout) {
+        clearTimeout(this.loadTimeout);
+        this.loadTimeout = null;
+      }
     }
   },
-  
   // 组件挂载后
   mounted: function() {
     // 为音频元素添加事件监听
     const audio = this.$refs.audio;
+    var that = this;
     if (audio) {
       audio.addEventListener('timeupdate', this.updateLyric);
       audio.addEventListener('ended', this.playNextSong);
+      
+      // 监听音频可以播放事件，清除超时定时器
+      audio.addEventListener('canplay', function() {
+        that.clearLoadTimeout();
+      });
+      
+      // 监听音频加载数据事件，清除超时定时器
+      audio.addEventListener('loadeddata', function() {
+        that.clearLoadTimeout();
+      });
     }
   }
 });
