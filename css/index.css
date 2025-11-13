@@ -29,7 +29,7 @@ dd {
 
 .search_bar {
   height: 60px;
-  background-color: #1eacda;
+  background-color: rgba(255, 255, 255, 0.3);
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   display: flex;
@@ -37,6 +37,8 @@ dd {
   justify-content: space-between;
   position: relative;
   z-index: 11;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .search_bar img {
@@ -57,9 +59,10 @@ dd {
 
 .center_con {
   height: 435px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.3);
   display: flex;
   position: relative;
+  backdrop-filter: blur(10px);
 }
 
 .song_wrapper {
@@ -194,17 +197,19 @@ dd {
 }
 
 .music_info h3 {
-  color: #333;
+  color: #fff;
   font-size: 16px;
   margin-bottom: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .music_info p {
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.8);
   font-size: 12px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .player_con2 {
@@ -238,8 +243,7 @@ dd {
   border-radius: 75px;
   z-index: 8;
 }
-.comment_wrapper,
-.lyric_wrapper {
+.comment_wrapper, .lyric_wrapper {
   width: 180px;
   height: 400px; /* 减小高度，避免溢出到进度条 */
   list-style: none;
@@ -248,6 +252,8 @@ dd {
   top: 0px;
   padding: 25px 10px 5px 10px; /* 调整内边距，底部留空 */
   overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
 }
 .comment_wrapper .title {
   position: absolute;
@@ -331,16 +337,18 @@ dd {
 }
 .audio_con {
   height: 50px;
-  background-color: #f1f3f4;
+  background-color: rgba(255, 255, 255, 0.3);
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 .myaudio {
   width: 800px;
   height: 40px;
   margin-top: 5px;
   outline: none;
-  background-color: #f1f3f4;
+  background-color: transparent;
 }
 /* 旋转的动画 */
 @keyframes Rotate {
