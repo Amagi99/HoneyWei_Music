@@ -46,7 +46,7 @@ var app = new Vue({
           if (response.data && response.data.data && response.data.data.length > 0) {
               that.musicList = response.data.data;
               
-              // 自动显示第一首歌的信息（不播放）
+              // 自动显示第一首歌的信息并设置URL（不自动播放）
               if (that.musicList.length > 0) {
                 const firstSong = that.musicList[0];
                 that.currentMusic = {
@@ -55,13 +55,17 @@ var app = new Vue({
                 };
                 that.currentIndex = 0;
                 
-                // 获取歌曲封面和歌词信息
+                // 获取歌曲封面、歌词和URL信息
                 const musicUrl = 'https://y.music.163.com/m/song?id=' + firstSong.id;
                 axios.get("https://api.kxzjoker.cn/api/163_music?url=" + encodeURIComponent(musicUrl) + "&level=standard&type=json").then(
                   function(response) {
                     if (response.data && response.data.status === 200) {
                       that.musicCover = response.data.pic;
                       that.parseLyric(response.data.lyric || '');
+                      // 关键修改：设置musicUrl，这样点击播放按钮就能直接播放
+                      if (response.data.url) {
+                        that.musicUrl = response.data.url;
+                      }
                     }
                   }
                 );
