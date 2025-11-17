@@ -17,8 +17,9 @@
     <div class="play_wrap" id="player">
       <div class="search_bar">
         <img src="images/player_title.webp" alt="" />
+        <span class="music_title">Honey Wei Music</span>
         <!-- 搜索歌曲 -->
-        <input type="text" autocomplete="off" v-model='query' @keyup.enter="searchMusic();" />
+        <input type="text" autocomplete="off" v-model='query' @keyup.enter="searchMusic();" placeholder="输入歌手/歌曲名进行搜索" />
       </div>
       <div class="center_con">
         <!-- 搜索歌曲列表 -->
