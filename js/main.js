@@ -118,6 +118,16 @@ var app = new Vue({
             that.musicCover = response.data.pic;
             // 解析歌词并设置
             that.parseLyric(response.data.lyric || '');
+            // 尝试播放音乐
+            setTimeout(function() {
+              if (that.$refs.audio) {
+                that.isPlaying = true;
+                that.$refs.audio.play().catch(function(e) {
+                  console.log('自动播放失败（可能是浏览器限制），需要用户手动点击播放:', e);
+                  that.isPlaying = false;
+                });
+              }
+            }, 100);
           } else {
             console.error('获取到的音乐资源无效，自动切换到下一首');
             that.playNextSong();
