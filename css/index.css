@@ -1,3 +1,8 @@
+/* v-cloak指令样式，确保Vue初始化前隐藏模板 */
+[v-cloak] {
+  display: none !important;
+}
+
 body,
 ul,
 dl,
