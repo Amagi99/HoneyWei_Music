@@ -445,6 +445,10 @@ var app = new Vue({
         }
       });
     }
+    
+    // 初始化时默认搜索林俊杰的歌曲
+    this.query = '林俊杰';
+    this.searchMusic();
   }
 });
 
