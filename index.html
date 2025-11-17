@@ -100,6 +100,18 @@
           </div>
         </div>
       </div>
+      <!-- 底部信息区域 -->
+      <div class="footer_info">
+        <div class="footer_left">
+          Create By Honey Wei
+        </div>
+        <div class="footer_right">
+          <a href="#" class="social_btn blog_btn" title="博客">博客</a>
+          <a href="#" class="social_btn weibo_btn" title="微博">微博</a>
+          <a href="#" class="social_btn xhs_btn" title="小红书">小红书</a>
+          <a href="#" class="social_btn douyin_btn" title="抖音">抖音</a>
+        </div>
+      </div>
     </div>
   </div>
   <!-- 开发环境版本，包含了有帮助的命令行警告 -->
@@ -108,6 +120,64 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <!-- 引入主脚本 -->
   <script src="./js/main.js"></script>
+  <style>
+    /* 底部信息区域样式 */
+    .footer_info {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 30px;
+      box-sizing: border-box;
+      z-index: 1000;
+    }
+    
+    .footer_left {
+      font-size: 14px;
+      color: #fff;
+      font-weight: bold;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .footer_right {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .social_btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 12px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .social_btn:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .social_btn:active {
+      transform: translateY(0);
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 900px) {
+      .footer_info {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
 </body>
 
 </html>
