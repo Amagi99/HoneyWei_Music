@@ -35,7 +35,7 @@ var app = new Vue({
   },
   methods: {
     // 歌曲搜索
-    searchMusic: function() {
+    searchMusic: function(isInitialSearch = false) {
       if (!this.query) {
           return
       }
@@ -46,29 +46,36 @@ var app = new Vue({
           if (response.data && response.data.data && response.data.data.length > 0) {
               that.musicList = response.data.data;
               
-              // 自动显示第一首歌的信息并设置URL（不自动播放）
               if (that.musicList.length > 0) {
-                const firstSong = that.musicList[0];
-                that.currentMusic = {
-                  name: firstSong.name || '未知歌曲',
-                  singer: firstSong.singer || (firstSong.artists && firstSong.artists[0] ? firstSong.artists[0].name : '未知歌手')
-                };
-                that.currentIndex = 0;
-                
-                // 获取歌曲封面、歌词和URL信息
-                const musicUrl = 'https://y.music.163.com/m/song?id=' + firstSong.id;
-                axios.get("https://api.kxzjoker.cn/api/163_music?url=" + encodeURIComponent(musicUrl) + "&level=standard&type=json").then(
-                  function(response) {
-                    if (response.data && response.data.status === 200) {
-                      that.musicCover = response.data.pic;
-                      that.parseLyric(response.data.lyric || '');
-                      // 关键修改：设置musicUrl，这样点击播放按钮就能直接播放
-                      if (response.data.url) {
-                        that.musicUrl = response.data.url;
+                // 只有初始化搜索时才加载第一首歌的信息
+                if (isInitialSearch) {
+                  // 初始化搜索：加载第一首歌信息（不播放）
+                  const firstSong = that.musicList[0];
+                  that.currentMusic = {
+                    name: firstSong.name || '未知歌曲',
+                    singer: firstSong.singer || (firstSong.artists && firstSong.artists[0] ? firstSong.artists[0].name : '未知歌手')
+                  };
+                  that.currentIndex = 0;
+                  
+                  // 获取歌曲封面、歌词和URL信息
+                  const musicUrl = 'https://y.music.163.com/m/song?id=' + firstSong.id;
+                  axios.get("https://api.kxzjoker.cn/api/163_music?url=" + encodeURIComponent(musicUrl) + "&level=standard&type=json").then(
+                    function(response) {
+                      if (response.data && response.data.status === 200) {
+                        that.musicCover = response.data.pic;
+                        that.parseLyric(response.data.lyric || '');
+                        // 设置musicUrl，这样点击播放按钮就能直接播放
+                        if (response.data.url) {
+                          that.musicUrl = response.data.url;
+                        }
                       }
                     }
-                  }
-                );
+                  );
+                } else {
+                  // 用户手动搜索：只显示结果列表，不影响当前播放
+                  console.log('用户搜索到', that.musicList.length, '首歌曲');
+                  // 保留当前播放状态不变
+                }
               }
           } else {
               that.musicList = [];
@@ -482,8 +489,9 @@ var app = new Vue({
     }
     
     // 初始化时默认搜索林俊杰的歌曲
-    this.query = '林俊杰';
-    this.searchMusic();
+      this.query = '林俊杰';
+      // 标记为初始化搜索
+      this.searchMusic(true);
   }
 });
 
