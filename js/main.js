@@ -43,8 +43,29 @@ var app = new Vue({
       axios.get("https://api.kxzjoker.cn/api/163_search?name=" + encodeURIComponent(this.query) + "&limit=100").then(
         function(response) {
           // 检查响应格式并保存内容
-          if (response.data && response.data.data) {
+          if (response.data && response.data.data && response.data.data.length > 0) {
               that.musicList = response.data.data;
+              
+              // 自动显示第一首歌的信息（不播放）
+              if (that.musicList.length > 0) {
+                const firstSong = that.musicList[0];
+                that.currentMusic = {
+                  name: firstSong.name || '未知歌曲',
+                  singer: firstSong.singer || (firstSong.artists && firstSong.artists[0] ? firstSong.artists[0].name : '未知歌手')
+                };
+                that.currentIndex = 0;
+                
+                // 获取歌曲封面和歌词信息
+                const musicUrl = 'https://y.music.163.com/m/song?id=' + firstSong.id;
+                axios.get("https://api.kxzjoker.cn/api/163_music?url=" + encodeURIComponent(musicUrl) + "&level=standard&type=json").then(
+                  function(response) {
+                    if (response.data && response.data.status === 200) {
+                      that.musicCover = response.data.pic;
+                      that.parseLyric(response.data.lyric || '');
+                    }
+                  }
+                );
+              }
           } else {
               that.musicList = [];
           }
