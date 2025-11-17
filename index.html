@@ -101,17 +101,78 @@
         </div>
       </div>
       <!-- 底部信息区域 -->
-      <div class="footer_info">
-        <div class="footer_left">
-          Create By <a href="https://github.com/Amagi99" style="color: #aecea3; text-decoration: underline; cursor: pointer;">Honey Wei</a>
+        <div class="footer_info">
+          <div class="footer_left">
+            Create By <a href="https://github.com/Amagi99" style="color: #aecea3; text-decoration: underline; cursor: pointer;">Honey Wei</a>
+          </div>
+          <div class="footer_right">
+            <a href="https://amagi99.github.io/HoneyWei_Blog" class="social_btn blog_btn" title="博客">博客</a>
+            <a href="https://weibo.com/u/8003343191" class="social_btn weibo_btn" title="微博">微博</a>
+            <a href="https://xhslink.com/m/8NJn1rGQkX8" class="social_btn xhs_btn" title="小红书">小红书</a>
+            <a href="https://v.douyin.com/h1UFosm5Y7A" class="social_btn douyin_btn" title="抖音">抖音</a>
+            <!-- 修改后的提示信息按钮，与社交媒体按钮样式一致 -->
+            <a href="#" id="info-tip" class="social_btn" title="提示信息">i</a>
+          </div>
         </div>
-        <div class="footer_right">
-          <a href="https://amagi99.github.io/HoneyWei_Blog" class="social_btn blog_btn" title="博客">博客</a>
-          <a href="https://weibo.com/u/8003343191" class="social_btn weibo_btn" title="微博">微博</a>
-          <a href="https://xhslink.com/m/8NJn1rGQkX8" class="social_btn xhs_btn" title="小红书">小红书</a>
-          <a href="https://v.douyin.com/h1UFosm5Y7A" class="social_btn douyin_btn" title="抖音">抖音</a>
+        
+        <!-- 提示信息弹窗 -->
+        <div id="info-modal" class="info-modal">
+            <div class="modal-content">
+                <p>此网站仅供学习交流，严禁用于商业用途</p>
+                <button id="close-modal" class="close-btn">确定</button>
+            </div>
         </div>
-      </div>
+        
+        <script>
+            // 等待页面加载完成后再执行脚本
+            document.addEventListener('DOMContentLoaded', function() {
+                // 提示信息功能
+                const infoTip = document.getElementById('info-tip');
+                const infoModal = document.getElementById('info-modal');
+                const closeModal = document.getElementById('close-modal');
+                const modalContent = document.querySelector('.modal-content');
+                
+                // 添加调试日志
+                console.log('Info Tip Element:', infoTip);
+                console.log('Info Modal Element:', infoModal);
+                
+                if (infoTip && infoModal && closeModal) {
+                    // 点击i按钮显示弹窗
+                    infoTip.addEventListener('click', function(event) {
+                        event.preventDefault(); // 阻止默认链接行为
+                        console.log('Info tip clicked, showing modal');
+                        // 使用flex布局显示弹窗
+                        infoModal.style.display = 'flex';
+                        // 确保modal在最上层
+                        infoModal.style.zIndex = '9999';
+                    });
+                    
+                    // 点击关闭按钮隐藏弹窗
+                    closeModal.addEventListener('click', function() {
+                        console.log('Close button clicked, hiding modal');
+                        infoModal.style.display = 'none';
+                    });
+                    
+                    // 点击弹窗背景关闭弹窗（但不包括内容区域）
+                    infoModal.addEventListener('click', function(event) {
+                        if (event.target === infoModal) {
+                            console.log('Clicked on modal background, hiding modal');
+                            infoModal.style.display = 'none';
+                        }
+                    });
+                    
+                    // 添加ESC键关闭功能
+                    document.addEventListener('keydown', function(event) {
+                        if (event.key === 'Escape' && infoModal.style.display === 'flex') {
+                            console.log('ESC key pressed, hiding modal');
+                            infoModal.style.display = 'none';
+                        }
+                    });
+                } else {
+                    console.error('One or more elements not found!');
+                }
+            });
+        </script>
     </div>
   </div>
   <!-- 开发环境版本，包含了有帮助的命令行警告 -->
@@ -177,6 +238,112 @@
         flex-direction: column;
         gap: 10px;
       }
+    }
+    
+    /* 提示弹窗样式 */
+    .info-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    .modal-content {
+      background-color: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(174, 206, 163, 0.3);
+      min-width: 280px;
+      max-width: 90%;
+    }
+    
+    .modal-content p {
+      margin: 0 0 20px 0;
+      line-height: 1.6;
+    }
+    
+    .close-btn {
+      padding: 10px 25px;
+      background-color: #aecea3;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+    
+    .close-btn:hover {
+      background-color: #8fd591;
+      transform: scale(1.05);
+    }
+    
+    .close-btn:active {
+      transform: scale(0.98);
+    }
+    
+    /* 提示弹窗样式 */
+    .info-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    .modal-content {
+      background-color: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(174, 206, 163, 0.3);
+      min-width: 280px;
+      max-width: 90%;
+    }
+    
+    .modal-content p {
+      margin: 0 0 20px 0;
+      line-height: 1.6;
+    }
+    
+    .close-btn {
+      padding: 10px 25px;
+      background-color: #aecea3;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+    
+    .close-btn:hover {
+      background-color: #8fd591;
+      transform: scale(1.05);
+    }
+    
+    .close-btn:active {
+      transform: scale(0.98);
     }
   </style>
 </body>

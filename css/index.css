@@ -705,7 +705,7 @@ dd {
   z-index: 10;
   transform: rotate(-25deg);
   transform-origin: 12px 12px;
-  transition: 1s;
+  transition: 0.3s ease;
 }
 /* 播放杆 转回去 */
 .player_con.playing .play_bar {
