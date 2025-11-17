@@ -49,7 +49,7 @@
           <p class="music_singer">{{currentMusic.singer || '未知歌手'}}</p>
         </div>
         <!-- 歌词容器 -->
-        <div class="lyric_wrappe99r" ref='lyric_wrapper'>
+        <div class="lyric_wrapper" ref='lyric_wrapper'>
           <!-- <h5 class='title'>歌词</h5> -->
           <div class='lyric_list' ref='lyric_list'>
             <p v-for="(line, index) in lyricList" :key="index" :class="{active: currentLyricIndex === index}">
