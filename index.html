@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="audio_con">
-        <audio ref='audio' @play="play" @pause="pause" @error="handleAudioError" :src="musicUrl" autoplay class="myaudio"></audio>
+        <audio ref='audio' @play="play" @pause="pause" @error="handleAudioError" :src="musicUrl" class="myaudio"></audio>
         <!-- 自定义进度条和控制按钮 -->
         <div class="progress_wrapper">
           <div class="time_info">
@@ -194,6 +194,10 @@
       padding: 0 30px;
       box-sizing: border-box;
       z-index: 1000;
+      /* 确保元素可见 */
+      visibility: visible !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
     }
     
     .footer_left {
