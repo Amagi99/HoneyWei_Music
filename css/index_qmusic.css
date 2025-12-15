@@ -358,7 +358,7 @@ dd {
 }
 
 .lyric_wrapper .lyric_list p.active {
-  color: #1eacda;
+  color: #8fd591;
   font-size: 14px;
   font-weight: bold;
   transform: scale(1.1);
@@ -418,7 +418,7 @@ dd {
   left: 0;
   top: 0;
   height: 100%;
-  background-color: #1eacda;
+  background-color: #8fd591;
   border-radius: 2px;
   transition: width 0.1s linear;
 }
@@ -431,7 +431,7 @@ dd {
   height: 12px;
   background-color: #fff;
   border-radius: 50%;
-  border: 2px solid #1eacda;
+  border: 2px solid #8fd591;
   cursor: pointer;
   transition: transform 0.1s ease;
 }
@@ -477,11 +477,11 @@ dd {
 .play_btn {
   width: 40px;
   height: 40px;
-  background-color: rgba(30, 172, 218, 0.8);
+  background-color: rgba(143, 213, 145, 0.8);
 }
 
 .play_btn:hover {
-  background-color: rgba(30, 172, 218, 1);
+  background-color: rgba(143, 213, 145, 1);
 }
 
 /* 按钮图标样式 */
