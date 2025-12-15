@@ -1,0 +1,772 @@
+/* v-cloak指令样式，确保Vue初始化前隐藏模板 */
+[v-cloak] {
+  display: none !important;
+}
+
+body,
+ul,
+dl,
+dd {
+  margin: 0px;
+  padding: 0px;
+}
+
+.wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: url("../images/bg.webp") no-repeat;
+  background-size: 100% 100%;
+}
+
+.play_wrap {
+  width: 800px;
+  height: 544px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -400px;
+  margin-top: -272px;
+  /* background-color: #f9f9f9; */
+}
+
+.search_bar {
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 11;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.search_bar img {
+  margin-left: 23px;
+}
+
+.search_bar .music_title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  flex: 1;
+  text-align: center;
+  transform: translateX(-100px);
+}
+
+.search_bar input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search_bar input {
+  margin-right: 23px;
+  width: 296px;
+  height: 34px;
+  border-radius: 17px;
+  border: 0px;
+  background: url("../images/zoom.webp") 265px center no-repeat
+    rgba(255, 255, 255, 0.45);
+  text-indent: 15px;
+  outline: none;
+}
+
+.center_con {
+  height: 435px;
+  background-color: rgba(255, 255, 255, 0.3);
+  display: flex;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.song_wrapper {
+  width: 200px;
+  height: 435px;
+  box-sizing: border-box;
+  padding: 10px 0;
+  list-style: none;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 1;
+  overflow: visible;
+}
+
+.song_stretch {
+  width: 600px;
+}
+
+.song_list {
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  /* 确保滚动条始终可见 */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(30, 172, 218, 0.5) rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  padding-right: 5px; /* 添加右侧内边距，确保滚动条不影响内容 */
+}
+/* 自定义滚动条样式 */
+.song_list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.song_list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.song_list::-webkit-scrollbar-thumb {
+  background: rgba(30, 172, 218, 0.5);
+  border-radius: 3px;
+}
+
+.song_list::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 172, 218, 0.8);
+}
+
+.song_list li {
+  font-size: 12px;
+  color: #333;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-left: 25px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  gap: 5px; /* 添加元素间距 */
+}
+
+.song_list li:nth-child(odd) {
+  background-color: rgba(240, 240, 240, 0.3);
+}
+
+.song_list li a {
+  display: block;
+  width: 17px;
+  height: 17px;
+  background-image: url("../images/qmusic_play.webp");
+  background-size: 100%;
+  flex-shrink: 0; /* 防止播放按钮被压缩 */
+  box-sizing: border-box;
+}
+
+.song_list li b {
+  font-weight: normal;
+  width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0; /* 防止歌曲名称被压缩 */
+}
+
+.song_stretch .song_list li b {
+  width: 120px;
+}
+
+.song_stretch .song_list li em {
+  width: 150px;
+}
+
+.song_list li span {
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 1; /* 允许歌手名称容器在必要时收缩 */
+}
+
+.song_stretch .song_list li span {
+  max-width: 150px;
+  flex-shrink: 1; /* 允许歌手名称容器在必要时收缩 */
+}
+
+.song_list li span .singer {
+  color: #888;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  width: 100%;
+}
+
+.song_list li em,
+.song_list li i {
+  font-style: normal;
+  width: 100px;
+}
+
+.player_con {
+  width: 400px;
+  height: 380px;
+  position: absolute;
+  left: 200px;
+  top: 0px;
+  text-align: center;
+}
+
+/* 歌曲信息显示 - 唱片下方 */
+.music_info {
+  position: absolute;
+  left: 200px;
+  top: 350px;
+  width: 400px;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.music_info h3 {
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.music_info p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.player_con2 {
+  width: 400px;
+  height: 435px;
+  position: absolute;
+  left: 200px;
+  top: 0px;
+}
+
+.player_con2 video {
+  position: absolute;
+  left: 20px;
+  top: 30px;
+  width: 355px;
+  height: 265px;
+}
+
+.disc {
+  position: absolute;
+  left: 73px;
+  top: 60px;
+  z-index: 9;
+}
+.cover {
+  position: absolute;
+  left: 125px;
+  top: 112px;
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  z-index: 8;
+}
+.comment_wrapper, .lyric_wrapper {
+  width: 180px;
+  height: 400px; /* 减小高度，避免溢出到进度条 */
+  list-style: none;
+  position: absolute;
+  left: 600px;
+  top: 0px;
+  padding: 25px 10px 5px 10px; /* 调整内边距，底部留空 */
+  overflow: hidden;
+  /* background-color: rgba(255, 255, 255, 0.1); */
+  /* backdrop-filter: blur(5px); */
+}
+.comment_wrapper .title {
+  position: absolute;
+  top: 0;
+  margin-top: 10px;
+}
+.comment_wrapper .comment_list,
+.lyric_wrapper .lyric_list {
+  overflow: auto;
+  height: 410px;
+}
+.comment_wrapper .comment_list::-webkit-scrollbar,
+.lyric_wrapper::-webkit-scrollbar,
+.lyric_wrapper .lyric_list::-webkit-scrollbar {
+  display: none;
+}
+
+/* 额外隐藏歌词区域的滚动条 */
+.lyric_wrapper {
+  overflow: hidden;
+}
+
+.lyric_wrapper .lyric_list {
+  overflow: hidden;
+  height: calc(100% - 30px); /* 减去标题的高度，确保不会溢出 */
+  padding-bottom: 10px; /* 添加底部内边距 */
+}
+.comment_wrapper dl {
+  padding-top: 10px;
+  padding-left: 55px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.comment_wrapper dt {
+  position: absolute;
+  left: 4px;
+  top: 10px;
+}
+
+.comment_wrapper dt img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.comment_wrapper dd {
+  font-size: 12px;
+}
+
+.comment_wrapper .name {
+  font-weight: bold;
+  color: #333;
+  padding-top: 5px;
+}
+
+.comment_wrapper .detail {
+  color: #666;
+  margin-top: 5px;
+  line-height: 18px;
+}
+
+/* 歌词样式 */
+.lyric_wrapper .lyric_list p {
+  font-size: 12px;
+  color: #666;
+  line-height: 30px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+.lyric_wrapper .lyric_list p.active {
+  color: #1eacda;
+  font-size: 14px;
+  font-weight: bold;
+  transform: scale(1.1);
+}
+.audio_con {
+  height: 80px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+.myaudio {
+  display: none; /* 隐藏默认的音频控件 */
+}
+
+/* 自定义进度条样式 */
+.progress_wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.time_info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #fff;
+  margin-bottom: 5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.progress_bar {
+  position: relative;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.progress_bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.progress_current {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: #1eacda;
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.progress_dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 2px solid #1eacda;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.progress_dot:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* 播放控制按钮样式 */
+.play_controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  gap: 20px;
+}
+
+.control_btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control_btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.control_btn:active {
+  transform: scale(0.95);
+}
+
+/* 播放按钮特殊样式 */
+.play_btn {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(30, 172, 218, 0.8);
+}
+
+.play_btn:hover {
+  background-color: rgba(30, 172, 218, 1);
+}
+
+/* 按钮图标样式 */
+.btn_icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* 使用CSS绘制图标，避免依赖图片文件 */
+.prev_icon {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 12px solid white;
+  margin-right: -2px;
+}
+
+.next_icon {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 12px solid white;
+  margin-left: -2px;
+}
+
+.play_icon {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 12px solid white;
+  margin-left: 2px;
+}
+
+/* 下载按钮图标 */
+.download_icon {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+.download_icon::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 7px 12px 7px;
+  border-color: transparent transparent white transparent;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.download_icon::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 8px;
+  border: 2px solid white;
+  border-top: none;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+
+.pause_icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+.pause_icon::before,
+.pause_icon::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 16px;
+  background-color: white;
+  left: 0;
+  right: auto;
+}
+
+.pause_icon::after {
+  left: auto;
+  right: 0;
+}
+
+/* 音量控制样式 */
+.volume_control {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  margin-left: 30px;
+}
+
+.volume_icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* 用CSS绘制音量图标 */
+.volume_icon::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 8px solid white;
+}
+
+.volume_icon::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 6px;
+  width: 0;
+  height: 0;
+  border: 3px solid white;
+  border-radius: 3px;
+  transform: rotate(45deg);
+}
+
+/* 静音状态 */
+.volume_icon.muted::before,
+.volume_icon.muted::after {
+  display: none;
+}
+
+.volume_icon.muted {
+  background: linear-gradient(45deg, transparent 45%, white 45%, white 55%, transparent 55%),
+              linear-gradient(-45deg, transparent 45%, white 45%, white 55%, transparent 55%);
+  background-size: 100% 100%;
+}
+
+.volume_bar {
+  position: relative;
+  width: 100px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.volume_bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.volume_current {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.volume_dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.volume_dot:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+/* 旋转的动画 */
+@keyframes Rotate {
+  from {
+    transform: rotateZ(0);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+/* 旋转的类名 */
+.autoRotate {
+  animation-name: Rotate;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+  animation-timing-function: linear;
+  animation-duration: 5s;
+}
+/* 是否正在播放 */
+.player_con.playing .disc,
+.player_con.playing .cover {
+  animation-play-state: running;
+}
+
+.play_bar {
+  position: absolute;
+  left: 200px;
+  top: -10px;
+  z-index: 10;
+  transform: rotate(-25deg);
+  transform-origin: 12px 12px;
+  transition: 0.3s ease;
+}
+/* 播放杆 转回去 */
+.player_con.playing .play_bar {
+  transform: rotate(0);
+}
+/* 搜索历史列表 */
+.search_history {
+  position: absolute;
+  width: 296px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.3);
+  list-style: none;
+  right: 23px;
+  top: 50px;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  border-radius: 17px;
+}
+.search_history li {
+  line-height: 24px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.switch_btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+.right_line {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.video_con video {
+  position: fixed;
+  width: 800px;
+  height: 546px;
+  left: 50%;
+  top: 50%;
+  margin-top: -273px;
+  transform: translateX(-50%);
+  z-index: 990;
+}
+.video_con .mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 980;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.video_con .shutoff {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  background: url("../images/shutoff.webp") no-repeat;
+  left: 50%;
+  margin-left: 400px;
+  margin-top: -273px;
+  top: 50%;
+  z-index: 995;
+}
