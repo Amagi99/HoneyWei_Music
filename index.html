@@ -17,7 +17,7 @@
     <div class="play_wrap" id="player" v-cloak>
       <div class="search_bar">
         <img src="images/qmusic.webp" alt="" title="点击切换播放源" onclick="window.location.href='index_yun.html'" style="cursor: pointer;" />
-        <span class="music_title">WeiYun Music</span>
+        <span class="music_title">WeiQ Music</span>
         <!-- 搜索歌曲 -->
         <input type="text" autocomplete="off" v-model='query' @keyup.enter="searchMusic();" placeholder="输入歌手/歌曲名进行搜索" />
       </div>
@@ -25,12 +25,12 @@
         <!-- 搜索歌曲列表 -->
         <div class='song_wrapper' ref='song_wrapper'>
           <ul class="song_list">
-            <li v-for="item in musicList">
+            <li v-for="(item, index) in musicList">
               <!-- 点击放歌 -->
-              <a href="javascript:;" @click='playMusic(item.id || item.id)'></a>
+              <a href="javascript:;" @click='playMusic(index)'></a>
               <b>{{item.name || item.name}}</b>
               <span>
-                <span class="singer">{{item.singer || (item.artists && item.artists[0] ? item.artists[0].name : '未知歌手')}}</span>
+                <span class="singer">{{item.singer || '未知歌手'}}</span>
               </span>
             </li>
 
@@ -159,7 +159,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <!-- 引入主脚本 -->
-  <script src="./js/main.js"></script>
+  <script src="./js/main_qmusic.js"></script>
   <style>
     /* 底部信息区域样式 */
     .footer_info {
