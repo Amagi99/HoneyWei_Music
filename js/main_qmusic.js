@@ -3,6 +3,8 @@ var app = new Vue({
   data: {
     // 查询关键字
     query: "",
+    // 原始查询关键字（保存搜索时的原始关键词）
+    originalQuery: "",
     // 歌曲数组
     musicList: [],
     // 歌曲地址
@@ -42,6 +44,9 @@ var app = new Vue({
       var that = this;
       // 新的QQ音乐搜索API
       const searchUrl = `http://cyapi.top/API/qq_music.php?apikey=62ccfd8be755cc5850046044c6348d6cac5ef31bd5874c1352287facc06f94c4&msg=${encodeURIComponent(this.query)}&num=50&type=json`;
+      // 保存原始搜索词
+      that.originalQuery = that.query;
+      
       axios.get(searchUrl).then(
         function(response) {
           console.log('搜索结果:', response.data);
@@ -98,7 +103,7 @@ var app = new Vue({
       that.setLoadTimeout();
       
       // 使用新的QQ音乐API获取歌曲详情，添加n参数指定歌曲索引
-      const query = that.musicList[index].name || '热歌榜'; // 使用歌曲名称作为查询词
+      const query = that.originalQuery || '热歌榜'; // 使用原始搜索词作为查询词
       const detailUrl = `http://cyapi.top/API/qq_music.php?apikey=62ccfd8be755cc5850046044c6348d6cac5ef31bd5874c1352287facc06f94c4&msg=${encodeURIComponent(query)}&num=50&type=json&n=${index + 1}`;
       
       axios.get(detailUrl).then(
@@ -138,8 +143,8 @@ var app = new Vue({
       // 设置加载超时检测
       that.setLoadTimeout();
       
-      // 使用新的QQ音乐API获取歌曲详情，使用当前歌曲名称作为查询词
-      const query = currentSong.name || that.query || '热歌榜'; // 使用当前歌曲名称作为查询词
+      // 使用新的QQ音乐API获取歌曲详情，使用原始搜索词
+      const query = that.originalQuery || '热歌榜'; // 使用原始搜索词作为查询词
       const detailUrl = `http://cyapi.top/API/qq_music.php?apikey=62ccfd8be755cc5850046044c6348d6cac5ef31bd5874c1352287facc06f94c4&msg=${encodeURIComponent(query)}&num=50&type=json&n=${that.currentIndex + 1}`;
       
       axios.get(detailUrl).then(
