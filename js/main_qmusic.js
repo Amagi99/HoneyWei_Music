@@ -107,10 +107,10 @@ var app = new Vue({
           if (response.data && response.data.url) {
             // 设置歌曲URL
             that.musicUrl = response.data.url;
-            // 设置封面
-            that.musicCover = response.data.pic || './images/cover.webp';
-            // 解析歌词并设置
-            that.parseLyric(response.data.lyric || '');
+            // 设置封面 - 从cover字段中获取中等尺寸图片
+            that.musicCover = response.data.cover && response.data.cover.medium || './images/cover.webp';
+            // 解析歌词并设置 - 从lyric.text字段中获取歌词
+            that.parseLyric(response.data.lyric && response.data.lyric.text || '');
           }
         },
         function(err) {
@@ -148,10 +148,10 @@ var app = new Vue({
           if (response.data && response.data.url) {
             // 设置歌曲URL
             that.musicUrl = response.data.url;
-            // 设置封面
-            that.musicCover = response.data.pic || './images/cover.webp';
-            // 解析歌词并设置
-            that.parseLyric(response.data.lyric || '');
+            // 设置封面 - 从cover字段中获取中等尺寸图片
+            that.musicCover = response.data.cover && response.data.cover.medium || './images/cover.webp';
+            // 解析歌词并设置 - 从lyric.text字段中获取歌词
+            that.parseLyric(response.data.lyric && response.data.lyric.text || '');
             // 尝试播放音乐
             setTimeout(function() {
               if (that.$refs.audio) {
