@@ -42,8 +42,8 @@ var app = new Vue({
           return
       }
       var that = this;
-      // 新的QQ音乐搜索API
-      const searchUrl = `http://cyapi.top/API/qq_music.php?apikey=62ccfd8be755cc5850046044c6348d6cac5ef31bd5874c1352287facc06f94c4&msg=${encodeURIComponent(this.query)}&num=50&type=json`;
+      // 新的QQ音乐搜索API - 改为使用https
+      const searchUrl = `https://api.bzqll.com/music/tencent/search(key=${encodeURIComponent(this.query)}&limit=50`;
       // 保存原始搜索词
       that.originalQuery = that.query;
       
@@ -104,7 +104,7 @@ var app = new Vue({
       
       // 使用新的QQ音乐API获取歌曲详情，添加n参数指定歌曲索引
       const query = that.originalQuery || '热歌榜'; // 使用原始搜索词作为查询词
-      const detailUrl = `http://cyapi.top/API/qq_music.php?apikey=62ccfd8be755cc5850046044c6348d6cac5ef31bd5874c1352287facc06f94c4&msg=${encodeURIComponent(query)}&num=50&type=json&n=${index + 1}`;
+      const detailUrl = `https://cyapi.top/API/qq_music.php?apikey=62ccfd8be755cc5850046044c6348d6cac5ef31bd5874c1352287facc06f94c4&msg=${encodeURIComponent(query)}&num=50&type=json&n=${index + 1}`;
       
       axios.get(detailUrl).then(
         function(response) {
@@ -145,7 +145,7 @@ var app = new Vue({
       
       // 使用新的QQ音乐API获取歌曲详情，使用原始搜索词
       const query = that.originalQuery || '热歌榜'; // 使用原始搜索词作为查询词
-      const detailUrl = `http://cyapi.top/API/qq_music.php?apikey=62ccfd8be755cc5850046044c6348d6cac5ef31bd5874c1352287facc06f94c4&msg=${encodeURIComponent(query)}&num=50&type=json&n=${that.currentIndex + 1}`;
+      const detailUrl = `https://cyapi.top/API/qq_music.php?apikey=62ccfd8be755cc5850046044c6348d6cac5ef31bd5874c1352287facc06f94c4&msg=${encodeURIComponent(query)}&num=50&type=json&n=${that.currentIndex + 1}`;
       
       axios.get(detailUrl).then(
         function(response) {
