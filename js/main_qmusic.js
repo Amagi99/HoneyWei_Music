@@ -42,11 +42,13 @@ var app = new Vue({
           return
       }
       var that = this;
-      // 新的QQ音乐搜索API - 改为使用https
-      const searchUrl = `https://api.bzqll.com/music/tencent/search(key=${encodeURIComponent(this.query)}&limit=50`;
+      // 新的QQ音乐搜索API - 改为使用http
+      // 新的QQ音乐搜索API
+      const searchUrl = `https://cyapi.top/API/qq_music.php?apikey=62ccfd8be755cc5850046044c6348d6cac5ef31bd5874c1352287facc06f94c4&msg=${encodeURIComponent(this.query)}&num=50&type=json`;
       // 保存原始搜索词
       that.originalQuery = that.query;
       
+      console.log('发送搜索请求:', searchUrl);
       axios.get(searchUrl).then(
         function(response) {
           console.log('搜索结果:', response.data);
