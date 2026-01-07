@@ -1,0 +1,23 @@
+{
+  "name": "Honey Wei Music",
+  "short_name": "Honey Wei Music",
+  "description": "Honey Wei Music",
+  "icons": [
+    {
+      "src": "images/apple-touch-icon-v2.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "images/myself.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": "/HoneyWei_Music/index.html",
+  "display": "standalone",
+  "theme_color": "#1db954",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary"
+}

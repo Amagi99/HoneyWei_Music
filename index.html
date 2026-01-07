@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="./css/index_qmusic.css">
   <!-- 网站图标 -->
   <link rel="icon" type="image/png" href="./images/myself.ico">
+  <!-- PWA manifest -->
+  <link rel="manifest" href="./manifest.json">
+  <!-- Apple touch icon -->
+  <link rel="apple-touch-icon" href="./images/apple-touch-icon-v2.png">
 </head>
 
 <body>
@@ -160,6 +164,20 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <!-- 引入主脚本 -->
   <script src="./js/main_qmusic.js"></script>
+  <!-- 注册Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(registration => {
+            console.log('Service Worker 注册成功:', registration.scope);
+          })
+          .catch(error => {
+            console.log('Service Worker 注册失败:', error);
+          });
+      });
+    }
+  </script>
   <style>
     /* 底部信息区域样式 */
     .footer_info {
